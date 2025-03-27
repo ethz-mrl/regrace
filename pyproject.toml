@@ -1,7 +1,7 @@
 [project]
-name = "reloc-gnn"
-version = "0.1.0"
-description = "Default template for PDM package"
+name = "regrace"
+version = "1.0.0"
+description = "A Robust and Efficient Graph-based Re-localization Algorithm using Consistency Evaluation"
 authors = [
     {name = "Debora Oliveira", email = "debora.oliveira@tum.de"},
 ]
