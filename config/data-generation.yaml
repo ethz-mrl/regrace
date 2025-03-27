@@ -1,0 +1,29 @@
+# submap configuration
+sequence: 0                 # number of sequence to process
+dist_between_submaps: 20.0  # maximum distance between two scans to be considered in the same submap
+voxel_size: 0.1           
+interval_between_scans: 1   # use every nth scan
+# clustering configuration
+min_points_per_cluster: 800
+max_dist_between_points_in_cluster: 0.5
+min_number_of_neighbours: 2 # per point
+# path configuration
+kitti_dir: <YOUR SEMANTIC KITTI FOLDER>
+output_folder: <WHERE TO STORE SUBMAPS>
+# running flags
+force_accumulation: False # erase existing submaps and start from scratch
+force_clustering: True    # erase existing clusters and start from scratch
+# runtime configuration
+num_workers: 8
+# clustering labels to ignore (not used for relocalization)
+ignore_labels:
+  - "unlabeled"
+  - "outlier"
+  - "road"
+  - "sidewalk"
+  - "parking"
+  - "other-ground"
+  - "lane-marking"
+  - "terrain"
+  - "other-object"
+  - "vegetation"

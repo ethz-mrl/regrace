@@ -1,0 +1,77 @@
+dataset: # Dataset configuration
+  debug_train_on_test_set: false # If true, the train set will be the test set
+  edge_features: 1 # Number of edge features
+  max_distance_to_positive: 3.0 # Maximum distance to consider a positive pair
+  min_distance_to_negative: 20.0 # Minimum distance to consider a negative pair
+  n_jobs: 8 # Number of jobs to use for loading the dataset
+  n_points_in_local_neighborhood: 32 # Number of points in the local neighborhood for generating the normal vectors
+  n_points_to_sample: 1024 # Number of points to sample from each cluster
+  node_features: 128 # Number of node features
+  preprocessing_folder: <WHERE TO SAVE COMPACT SUBMAP REPRESENTATIONS>
+  test_folders:
+  - <TEST SUBMAPS FOLDERS>
+  train_folders:
+  - <TRAIN SUBMAPS FOLDERS>
+evaluation: # Evaluation configuration
+  consistency_tresh_max: 500.0 #Maximum consistency threshold to evaluate
+  consistency_tresh_min: 0.0 #Minimum consistency threshold to evaluate
+  num_consistency_tresh: 100 #Number of consistency thresholds to evaluate
+  previous_time_window_to_evaluate: 30.0
+  wandb_id: '' # wandb id of the run to evaluate
+  max_dist_2_true_positive: 5.0 # Maximum distance to consider a true positive
+flags:
+  freeze_riconv: false # If true, the RiConv weights will be frozen
+  generate_triplets: false # If true, the triplets will be generated
+  initialize_from_checkpoint: true # If true, the model will be initialized from a checkpoint
+  initialize_weigths_xavier: false # If true, the weights will be initialized using Xavier initialization
+  normalize_embeddings: false # If true, the embeddings will be normalized
+  test: true # If true, the model will be tested
+  train: false # If true, the model will be trained
+  use_angles_in_edge_features: false # If true, the angles will be used in the edge features
+  use_semantics_in_graph_features: false # If true, the semantics will be used in the graph features
+  use_semantics_in_node_features: false # If true, the semantics will be used in the node features
+  wandb_logging: false # If true, the logs will be sent to wandb
+model:
+  conv_type: egnn # Type of convolution to use
+  edge_preprocessing: # MLP configuration for the edge preprocessing
+    edge_hidden_size: 32
+    edge_output_size: 64
+  gnn: # GNN configuration
+    gnn_output_size: 512
+    n_towers: 1
+    pna_aggregators: # PNA aggregators
+    - mean
+    - max
+    - min
+    - std
+    pna_scalers: # PNA scalers
+    - identity
+    - amplification
+    - attenuation
+    post_layers: 1
+    pre_layers: 1
+  node_preprocessing: # MLP configuration for the node preprocessing
+    node_hidden_size: 128
+    node_output_size: 128
+  number_conv_layers: 2 # Number of convolutional layers of the GNN
+  number_k_nearest_neighbors: 30 # Number of nearest neighbors to consider when aggregating the features
+  output_mlp: # MLP configuration for the output
+    embedding_size: 256
+    hidden_output_size: 512
+  pooling: genmean
+training: # Training configuration
+  batch_size: 26
+  checkpoint_path: ''
+  epochs: 100
+  loss:
+    margin: 1.0
+    p: 2
+    type: both # BCE + Triplet loss
+  num_workers: 12
+  optimizer:
+    lr: 0.0001
+  scheduler:
+    decay_rate: 0.1
+    milestones:
+    - 50
+    - 75
