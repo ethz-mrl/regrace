@@ -111,7 +111,7 @@ and a folder `\data\pickle_list\eval_seqXX` containing the compacted dataset for
 
 
 
-### 📊 Testing
+## 📊 Testing
 
 To test the model, you need to have the model trained. Weights are available in the [latest release](https://github.com/smartroboticslab/regrace/releases). Adjust the in the configuration YAML [`default.yaml`](config/default.yaml) as:
 
@@ -129,7 +129,7 @@ python run.py --config_file <YOUR_CONFIG>.yaml
 
 Your output will be a table with the metrics for the test set. 
 
-### 🚀 Training
+## 🚀 Training
 
 To train the model, you need to adjust the in the configuration YAML [`default.yaml`](config/default.yaml) as:
 
