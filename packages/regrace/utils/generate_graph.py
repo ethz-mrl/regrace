@@ -56,9 +56,11 @@ def create_graph(
     # create the data object
     return Data(
         x=node_features,
-        edge_index=edge_index.long(),
-        edge_attr=edge_features.reshape(edge_index.shape[1], -1).float(),
-        pos=nodes_positions.float(),
+        edge_index=edge_index.long().to(node_features.device),
+        edge_attr=edge_features.reshape(edge_index.shape[1], -1).float().to(
+            node_features.device),
+        pos=nodes_positions.float().to(node_features.device),
+        device=node_features.device,
     )
 
 

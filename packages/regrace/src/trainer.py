@@ -217,7 +217,7 @@ class Trainer():
         self.embedding_net.eval() if validation else self.embedding_net.train()
 
         # get embeddings
-        node_features = self.embedding_net(batch.to(self.device)).to("cpu")
+        node_features = self.embedding_net(batch.to(self.device))
 
         # get graph batch
         query = create_graph_batch(
@@ -229,8 +229,7 @@ class Trainer():
             knn=self.config.k_nearest_neighbors,
             with_angles=self.config.use_angles_in_edge_features,
             with_semantics=self.config.use_semantics_in_node_features,
-        ).to(  # type: ignore
-            self.device)
+        )
 
         # forward pass
         query_embeddings, scores = self.gnn(query, meta_info)
@@ -315,7 +314,7 @@ class Trainer():
                                      dynamic_ncols=True):
 
             # get embeddings
-            node_features = self.embedding_net(batch.to(self.device)).to("cpu")
+            node_features = self.embedding_net(batch.to(self.device))
             nodes_feature_list.append(
                 node_features[:meta_info['batch_split_index'][0]])
             nodes_positions.append(meta_info['cluster_centers'][0])
@@ -333,8 +332,7 @@ class Trainer():
                 knn=self.config.k_nearest_neighbors,
                 with_angles=self.config.use_angles_in_edge_features,
                 with_semantics=self.config.use_semantics_in_node_features,
-            ).to(  # type: ignore
-                self.device)
+            )
 
             # forward pass and get the embeddings for triplet loss
             meta_info['label_probabilities'] = [
