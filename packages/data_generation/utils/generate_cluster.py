@@ -24,6 +24,9 @@ def cluster_submap(
         submap.config.min_points_per_cluster = min_points_per_cluster
         submap.cluster(dbscan)
         submap.save_pickle()
+        # remove the file in the all-points folder
+        # import os
+        # os.system(f"rm {submap.config.pickle_dir}/{submap.submap_number:06d}.pkl")
     except ValueError:
         click.echo(
             click.style(
