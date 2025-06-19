@@ -1,12 +1,13 @@
 # REGRACE: A Robust and Efficient Graph-based Re-localization Algorithm using Consistency Evaluation
 
-A novel approach that addresses these challenges of scalability and perspective difference in re-localization by using LiDAR-based submaps. 
+A novel approach that addresses these challenges of scalability and perspective difference in re-localization by using LiDAR-based submaps. Accepted to IROS 2025. 
 
 [![arXiv](https://img.shields.io/badge/arXiv-2503.03599-b31b1b.svg)](https://arxiv.org/abs/2503.03599)
 [![GitHub License](https://img.shields.io/github/license/smartroboticslab/regrace?label=License&color=%23e11d48&cacheSeconds=3600)
 ](https://github.com/smartroboticslab/regrace/blob/main/LICENSE)
 [![](https://img.shields.io/github/v/tag/smartroboticslab/regrace?label=Latest%20Release&color=%23e11d48&cacheSeconds=60)
 ](https://github.com/smartroboticslab/regrace/releases)
+
 
 ## 🪛 Installation
 
@@ -15,7 +16,7 @@ A novel approach that addresses these challenges of scalability and perspective 
 python3 -m venv .venv
 ```
 
-2) One can install the dependencies using pip or pdm
+2) Install the dependencies using pip or pdm
 
 ```bash
 pip install -r requirements.txt
@@ -40,11 +41,9 @@ export 'CUBLAS_WORKSPACE_CONFIG=:4096:8'
 
 3) If you want to use the pretrained model, download the weights trained on KITTI sequences 00 to 10 from [our latest release](https://github.com/smartroboticslab/regrace/releases). Further instructions on how to use the weights are provided in the [Testing](#-testing) section.
 
-## 🗂️ Data generation
+## 🗂️ Submap generation
 
-> 🚨 _We decided to split the generation in two steps to allow debugging without the need to generate the submaps again. A future release will target offer generating the triplets and the parquet files in one step only._
-
-#### 1️⃣ Generating submaps and clusters
+#### 1️⃣ Generating clustered submaps
 First, adjust the parameters in the configuration YAML [`data-generation.yaml`](config/data-generation.yaml):
 
 1) `sequence` to the desired KITTI sequence
@@ -78,7 +77,7 @@ The `single-scan` folder contains the predictions of the Cylinder3D model for ea
 
 We then compact the submaps into a parquet file containing $P$ points of the valid clusters and their respective normal vector. Each parquet is accompanied by a pickle file containing the metadata of the submap, such as position and positive maps. To generate the parquet and pickle files, adjust the parameters in the configuration YAML [`default.yaml`](config/default.yaml):
 
-1) `dataset/train_folders` and `dataset/test_folders` to the folders of the preprocessed data for each KITTI sequence (`.../submap/cluster`). You can add multiple folders as a list.
+1) `dataset/train_folders` and `dataset/test_folders` to the folders of the preprocessed data for each KITTI sequence (`preprocessed_data_folder/seqXX/submap/cluster`). You can add multiple folders as a list.
 2) `dataset/preprocessing_folder` to the folder where the compressed preprocessed data should be stored
 3) `flag/generate_triplets` to `True`
 4) `flag/train` and `flag/test` to `False`
@@ -102,7 +101,7 @@ preprocessing_folder
 ...
 ```
 
-and a folder `/data/pickle_list/eval_seqXX` containing the compacted dataset for faster loading during training and testing.
+and a folder `<repo path>/data/pickle_list/eval_seqXX` containing the compacted dataset for faster loading during training and testing.
 
 #### 💡 Saving memory while generating submaps
 
@@ -113,16 +112,16 @@ and a folder `/data/pickle_list/eval_seqXX` containing the compacted dataset for
 This will reduce the total submap folder size to 250GB. You may delete it after generating the triplet. Note that if you change the `test_folder` or `train_folder` parameters in the [`default.yaml](/config/default.yaml), you have to generate the triplets again, and for that you need the submap folder.
 
 
-
 ## 📊 Testing
 
 To test the model, you need to have the model trained. Weights are available in the [latest release](https://github.com/smartroboticslab/regrace/releases). Adjust the in the configuration YAML [`default.yaml`](config/default.yaml) as:
 
-1) `flag/train` to `False` and `flag/test` to `True`. 
-2) Add the path to the weights in `training/checkpoint_path`.
-3) Set `flags/initialize_from_checkpoint` to `True`.
-4) `dataset/preprocessing_folder` to the compressed preprocessed data folder.
-5) `flag/generate_triplets` to `False`.
+1) `flag/train` to `False`
+2) `flag/test` to `True`. 
+3) Add the path to the weights in `training/checkpoint_path`.
+4) Set `flags/initialize_from_checkpoint` to `True`.
+5) `dataset/preprocessing_folder` to the compressed preprocessed data folder.
+6) `flag/generate_triplets` to `False`.
 
 Then, run the following command:
 
@@ -134,13 +133,15 @@ Your output will be a table with the metrics for the test set.
 
 ## 🚀 Training
 
+
+#### 1️⃣ Training from scratch
 To train the model, you need to adjust the in the configuration YAML [`default.yaml`](config/default.yaml) as:
 
 1) `dataset/preprocessing_folder` to the compressed preprocessed data folder.
 2) `flag/generate_triplets` to `False`.
-3) `flag/train` to `True` and `flag/test` to `False`.
-4) `flag/initialize_from_checkpoint` to `False`.
-5) `flag/generate_triplets` to `False`.
+3) `flag/train` to `True`
+4) `flag/test` to `False`.
+5) `flag/initialize_from_checkpoint` to `False`.
 
 Then, run the following command:
 
@@ -154,6 +155,7 @@ If you want to use [wandb](https://wandb.ai/) to log the training, you can set t
 wandb login
 ```
 
+#### 2️⃣ Fine-tuning 
 For the final refinement step, set the configuration YAML [`default.yaml`](config/default.yaml) as:
 
 ```yaml
