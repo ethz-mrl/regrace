@@ -4,7 +4,7 @@ A novel approach that addresses these challenges of scalability and perspective 
 
 [![arXiv](https://img.shields.io/badge/arXiv-2503.03599-b31b1b.svg)](https://arxiv.org/abs/2503.03599)
 [![GitHub License](https://img.shields.io/github/license/smartroboticslab/regrace?label=License&color=%23e11d48&cacheSeconds=3600)
-](https://github.com/tum-esm/pyra/blob/main/LICENSE.md)
+](https://github.com/smartroboticslab/regrace/blob/main/LICENSE)
 [![](https://img.shields.io/github/v/tag/smartroboticslab/regrace?label=Latest%20Release&color=%23e11d48&cacheSeconds=60)
 ](https://github.com/smartroboticslab/regrace/releases)
 
