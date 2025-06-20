@@ -11,9 +11,9 @@ A novel approach that addresses these challenges of scalability and perspective 
 
 ## 🪛 Installation
 
-1) Create a virtual environment
+1) Create a virtual environment with python 3.11
 ```
-python3 -m venv .venv
+python3.11 -m venv .venv
 ```
 
 2) Install the dependencies using pip or pdm
