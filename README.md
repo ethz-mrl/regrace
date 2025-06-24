@@ -11,7 +11,7 @@ A novel approach that addresses these challenges of scalability and perspective 
 
 ## 🪛 Installation
 
-1) Create a virtual environment with python 3.11
+1) Create a virtual environment with python 3.11. We tested REGRACE using CUDA 11.7.
 ```
 python3.11 -m venv .venv
 source .venv/bin/activate
